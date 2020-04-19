@@ -85,3 +85,34 @@ const double PI = acos(-1.0);
 #define debug(x)                                           \
     cerr << #x << " = " << (x) << " (L" << __LINE__ << ")" \
          << " " << __FILE__ << endl;
+
+int n, l[50010];
+
+void solve() {
+    priority_queue<int, vector<int>, greater<int> > que;
+    int ans = 0;
+    for (int i = 0; i < n; i++) {
+        que.push(l[i]);
+    }
+    while (que.size()) {
+        int first = que.top();
+        que.pop();
+        if (que.size() == 0) {
+            break;
+        }
+        int second = que.top();
+        que.pop();
+        ans += first + second;
+        que.push(first + second);
+    }
+    cout << ans << endl;
+}
+
+int main(int argc, char const *argv[]) {
+    cin >> n;
+    for (int i = 0; i < n; i++) {
+        cin >> l[i];
+    }
+    solve();
+    return 0;
+}
