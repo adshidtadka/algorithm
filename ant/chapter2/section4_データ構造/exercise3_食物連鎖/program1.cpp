@@ -128,11 +128,6 @@ int N, K;
 int T[MAX_K], X[MAX_K], Y[MAX_K];
 
 void solve() {
-    cin >> N >> K;
-    for (int i = 0; i < K; i++) {
-        cin >> T[i] >> X[i] >> Y[i];
-    }
-
     init(N * 3);
 
     int ans = 0;
@@ -169,6 +164,10 @@ void solve() {
 }
 
 int main() {
+    cin >> N >> K;
+    for (int i = 0; i < K; i++) {
+        cin >> T[i] >> X[i] >> Y[i];
+    }
     solve();
     return 0;
 }
