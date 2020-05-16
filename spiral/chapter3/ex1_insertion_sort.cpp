@@ -11,6 +11,12 @@ int main() {
     cin >> n;
     rep(i, n) cin >> a[i];
 
+    for (int k = 0; k < n; k++) {
+        if (k > 0) cout << " ";
+        cout << a[k];
+    }
+    cout << endl;
+
     for (int i = 1; i < n; i++) {
         int v = a[i];
         int j = i - 1;
@@ -19,8 +25,11 @@ int main() {
             j--;
         }
         a[j + 1] = v;
-        rep(k, n - 1) cout << a[k] << " ";
-        cout << a[n - 1] << endl;
+        for (int k = 0; k < n; k++) {
+            if (k > 0) cout << " ";
+            cout << a[k];
+        }
+        cout << endl;
     }
     return 0;
 }
