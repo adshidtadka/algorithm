@@ -7,22 +7,28 @@ using P = pair<int, int>;
 int n;
 int a[101];
 
-int main() {
-    cin >> n;
-    rep(i, n) cin >> a[i];
-
+int bubbleSort(int x[], int y) {
     int flag = 1;
     int changeNum = 0;
     while (flag) {
         flag = 0;
-        for (int j = n - 1; j > 0; j--) {
-            if (a[j] < a[j - 1]) {
-                swap(a[j], a[j - 1]);
+        for (int j = y - 1; j > 0; j--) {
+            if (x[j] < x[j - 1]) {
+                swap(x[j], x[j - 1]);
                 flag = 1;
                 changeNum++;
             };
         }
     }
+    return changeNum;
+}
+
+int main() {
+    cin >> n;
+    rep(i, n) cin >> a[i];
+
+    int changeNum = bubbleSort(a, n);
+
     rep(i, n - 1) cout << a[i] << " ";
     cout << a[n - 1] << endl << changeNum << endl;
     return 0;
