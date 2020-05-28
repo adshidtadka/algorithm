@@ -181,44 +181,38 @@ void dump_func(Head &&head, Tail &&... tail) {
 #endif
 
 int n, m;
-int x[100001];
+int x[100010];
 
-bool isCheck(int minute) {
-    dump(minute);
-    int p = 0;
+bool isCheck(LL minute) {
+    LL p = 0;
     REP(i, m) {
-        if (p >= n) return true;
-        if (x[i] - p > minute) {
+        int dist = x[i] - p;
+        if (dist > minute) {
             return false;
-        } else if (x[i] - p > 0) {
-            p = (minute - (x[i] - p)) / 2 + x[i] + 1;
+        } else if (dist> 0) {
+            p = max(minute - dist *2, (minute - dist)/2) + x[i] + 1;
         } else {
             p = max(p, x[i] + minute + 1);
         }
-        dump(p);
     }
-    if (p < n)
-        return false;
-    else
-        return true;
+    return p >= n;
 }
 
 int main(int argc, char *argv[]) {
     cin >> n >> m;
     REP(i, m) {
-        int tmp;
-        cin >> tmp;
-        x[i] = tmp - 1;
+        cin >> x[i];
+        x[i]--;
     }
-    int left = 0;
-    int right = n * 2;
-    int mid;
+    LL left = 0;
+    LL right = n * 2;
+    LL mid;
     while (right - left > 1) {
         mid = (right + left) / 2;
         if (isCheck(mid)) {
-            right = mid - 1;
+            right = mid;
         } else {
-            left = mid + 1;
+            left = mid;
         }
     }
     if (isCheck(left)) {
