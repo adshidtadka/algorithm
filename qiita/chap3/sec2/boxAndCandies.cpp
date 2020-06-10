@@ -163,17 +163,17 @@ void dump_func(Head &&head, Tail &&... tail) {
 #endif
 
 int N, x;
-int a[100001];
+LL a[100001];
 
 int main(int argc, char *argv[]) {
     cin >> N >> x;
     REP(i, N) cin >> a[i];
 
-    int ans = 0;
-    int diff = 0;
+    LL ans = 0;
+    LL diff = 0;
     REP(i, N) {
         if (diff + a[i] > x) {
-            int eat = diff + a[i] - x;
+            LL eat = diff + a[i] - x;
             ans += eat;
             diff = a[i] - eat;
         } else {
