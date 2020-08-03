@@ -164,6 +164,7 @@ void dump_func(Head &&head, Tail &&... tail) {
 
 LL gcd(LL a, LL b) { return b ? gcd(b, a % b) : a; }
 LL lcm(LL a, LL b) { return a / gcd(a, b) * b; }
+
 int main(void) {
     int a, b;
     cin >> a >> b;
