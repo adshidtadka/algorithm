@@ -185,10 +185,14 @@ LL data[DAT_SIZE], datb[DAT_SIZE];
 // k is coresponded to [l, r)
 void add(int a, int b, int x, int k, int l, int r) {
     if (a <= l && r <= b) {
+        // (l, r)が[a, b]に収まっていたら
+        // 一様に加えられた値
         data[k] += x;
     } else if (l < b && a < r) {
+        // (l, r)が[a, b]と重なっていたら
         add(a, b, x, k * 2 + 1, l, (l + r) / 2);
         add(a, b, x, k * 2 + 2, (l + r) / 2, r);
+        // 一様でなく加えられた値の和
         datb[k] += (min(b, r) - max(a, l)) * x;
     }
 }
@@ -196,6 +200,7 @@ void add(int a, int b, int x, int k, int l, int r) {
 LL sum(int a, int b, int k, int l, int r) {
     if (b <= l || r <= a) return 0;
     if (a <= l && r <= b)
+        // (l, r)が[a, b]に収まっていたら
         return data[k] * (r - l) + datb[k];
     else {
         LL vl = sum(a, b, k * 2 + 1, l, (l + r) / 2);
@@ -216,7 +221,6 @@ int main(void) {
         cin >> L[i] >> R[i];
         if (T[i] == 'C') cin >> X[i];
     }
-
 
     REP(i, Q) {
         if (T[i] == 'C')

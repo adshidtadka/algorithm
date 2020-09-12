@@ -179,36 +179,30 @@ int A[MAX_N];
 char T[MAX_N];
 int L[MAX_N], R[MAX_N], X[MAX_N];
 
-LL data[DAT_SIZE], datb[DAT_SIZE];
+LL bit0[DAT_SIZE], bit1[DAT_SIZE];
 
-// add x to [a, b)
-// k is coresponded to [l, r)
-void add(int a, int b, int x, int k, int l, int r) {
-    if (a <= l && r <= b) {
-        data[k] += x;
-    } else if (l < b && a < r) {
-        add(a, b, x, k * 2 + 1, l, (l + r) / 2);
-        add(a, b, x, k + 2 + 2, (l + r) / 2, r);
-        datb[k] += (min(b, r) - max(a, l)) * x;
+LL sum(LL *b, int i) {
+    LL s = 0;
+    while (i > 0) {
+        s += b[i];
+        i -= i & -i;
     }
+    return s;
 }
 
-LL sum(int a, int b, int k, int l, int r) {
-    if (b <= l || r <= a)
-        return 0;
-    else if (a <= l && r <= b)
-        return data[k] * (r - l) + datb[k];
-    else {
-        LL res = (min(b, r) - max(a, l)) * data[k];
-        res += sum(a, b, k * 2 + 1, l, (l + r) / 2);
-        res += sum(a, b, k * 2 + 2, (l + r) / 2, r);
-        return res;
+void add(LL *b, int i, int v) {
+    while (i <= N) {
+        b[i] += v;
+        i += i & -i;
     }
 }
 
 int main(void) {
     cin >> N >> Q;
-    REP(i, N) cin >> A[i];
+    FOR(i, 1, N + 1) {
+        cin >> A[i];
+        add(bit0, i, A[i]);
+    }
 
     REP(i, Q) {
         cin >> T[i];
@@ -216,13 +210,18 @@ int main(void) {
         if (T[i] == 'C') cin >> X[i];
     }
 
-    REP(i, N) add(i, i + 1, A[i], 0, 0, N);
-
     REP(i, Q) {
-        if (T[i] == 'C')
-            add(L[i] - 1, R[i], X[i], 0, 0, N);
-        else
-            printf("%lld\n", sum(L[i] - 1, R[i], 0, 0, N));
+        if (T[i] == 'C') {
+            add(bit0, L[i], -X[i] * (L[i] - 1));
+            add(bit1, L[i], X[i]);
+            add(bit0, R[i] + 1, X[i] * R[i]);
+            add(bit1, R[i] + 1, -X[i]);
+        } else {
+            LL res = 0;
+            res += sum(bit0, R[i]) + sum(bit1, R[i]) * R[i];
+            res -= sum(bit0, L[i] - 1) + sum(bit1, L[i] - 1) * (L[i] - 1);
+            cout << res << endl;
+        }
     }
     return 0;
 }
